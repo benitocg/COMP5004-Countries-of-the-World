@@ -1,24 +1,27 @@
-//
-// Created by lfe on 02/10/2024.
-//
-
+#include "add.h" //
 #include <iostream>
+#include <string>
 
 int main() {
     std::cout << "hello" << std::endl;
-    int option;
+
+    char option;
     std::cout << "input your option:" << std::endl;
     std::cin >> option;
+
     switch(option) {
-        case "find":
+        case 'f':
             std::cout << "Finding cities" << std::endl;
             return 0;
-        case "save":
+        case 's':
             std::cout << "Saving cities" << std::endl;
             return 0;
-        case "exit":
+        case 'e':
             std::cout << "Exiting" << std::endl;
             break;
+        case 'a':
+            std::cout << "the sum of 3 and 4 is " << add(3,4) <<  '\n' <<  std::endl;
+            return 0;
         default:
             break;
     }
