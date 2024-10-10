@@ -2,26 +2,33 @@
 #include <iostream>
 #include <string>
 
-int main() {
-    std::cout << "hello" << std::endl;
+using namespace std;
 
-    char option;
-    std::cout << "input your option:" << std::endl;
-    std::cin >> option;
+int main() {
+
+    cout<<"Cities of the World";
+    cout<<"\n1. Finding Cities";
+    cout<<"\n2. Saving Cities";
+    cout<<"\n3. Add (testing)";
+    cout<<"\n4. Exit";
+
+    int option;
+    cout << "\ninput your option:";
+    cin >> option;
 
     switch(option) {
-        case 'f':
-            std::cout << "Finding cities" << std::endl;
+        case 1:
+            cout << "Finding cities";
             return 0;
-        case 's':
-            std::cout << "Saving cities" << std::endl;
+        case 2:
+            cout << "Saving cities";
             return 0;
-        case 'e':
-            std::cout << "Exiting" << std::endl;
+        case 3:
+            cout << "the sum of 3 and 4 is " << add(3,4) <<  '\n' ;
+            return 0;
+        case 4:
+            cout << "Exiting...";
             break;
-        case 'a':
-            std::cout << "the sum of 3 and 4 is " << add(3,4) <<  '\n' <<  std::endl;
-            return 0;
         default:
             break;
     }
