@@ -17,7 +17,7 @@ int main() {
     cout<<"\n4. Exit";
 
     int option;
-    cout << "\n input your option:";
+    cout << "\n input your option: ";
     cin >> option;
 
     switch(option) {
