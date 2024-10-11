@@ -1,5 +1,7 @@
 #include "add.h" //
 #include <iostream>
+#include <fstream> // files
+#include <sstream> // storing in memory
 
 using namespace std;
 
@@ -7,6 +9,25 @@ void findingCities() {
     cout << "Finding cities";
 }
 
+void savingCities() {
+    cout << "Saving cities";
+}
+
+void addingCities() {
+    cout << "Adding cities";
+}
+
+void modifyCities() {
+    cout << "Modify cities";
+}
+
+void deleteCities() {
+    cout << "Deleting cities";
+}
+
+void distance() {
+    cout << "Distance between two cities...";
+}
 
 int main() {
 
