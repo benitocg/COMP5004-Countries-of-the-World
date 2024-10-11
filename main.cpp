@@ -1,7 +1,7 @@
 #include "add.h" //
 #include <iostream>
 #include <fstream> // files
-#include <math.h>
+#include <cmath>
 
 #include "degreesToRadians.h"
 #include <sstream> // storing in memory
@@ -35,7 +35,7 @@ void distance() {
     double lat1 = 51.7522; // oxford lat/long
     double long1 = -1.256;
     double lat2 = 51.5085; // london lat/long
-    double long2 = -1.1257;
+    double long2 = -0.1257;
 
     // converts lat/long degrees to radians
     lat1 = degreesToRadians(lat1);
@@ -50,7 +50,7 @@ void distance() {
     d = d * 180 / M_PI;
 
     // linear distance
-    double distance = (6371 * M_PI * d) / 180;
+    double distance = (6371.0 * M_PI * d) / 180;
 
     cout << "Distance between Oxford and London is: " << distance << " km";
 }

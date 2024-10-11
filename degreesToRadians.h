@@ -5,8 +5,10 @@
 #ifndef DEGREESTORADIANS_H
 #define DEGREESTORADIANS_H
 
+#include <iostream>
+#include <cmath>
 
-int degreesToRadians(double degrees);
+double degreesToRadians(double degrees);
 
 
 #endif //DEGREESTORADIANS_H

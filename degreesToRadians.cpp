@@ -9,9 +9,9 @@
 using namespace std;
 
 
-int degreesToRadians(double degrees) {
+double degreesToRadians(double degrees) {
      double radian = degrees * M_PI/180;
 
      cout << "Degrees to radians: " << degrees << " to " << radian << "\n";
-     return 0;
+     return radian;
 }
