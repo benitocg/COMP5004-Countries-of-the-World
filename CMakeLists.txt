@@ -7,4 +7,6 @@ add_executable(COMP5004_Countries_of_the_World
     main.cpp
         add.cpp
         add.h
+        degreesToRadians.cpp
+        degreesToRadians.h
 )

@@ -1,0 +1,3 @@
+"C:\Program Files\JetBrains\CLion 2024.2.2\bin\cmake\win\x64\bin\cmake.exe" -E rm -f CMakeFiles\COMP5004_Countries_of_the_World.dir/objects.a
+C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\ar.exe qc CMakeFiles\COMP5004_Countries_of_the_World.dir/objects.a @CMakeFiles\COMP5004_Countries_of_the_World.dir\objects1.rsp
+C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE -g -Wl,--whole-archive CMakeFiles\COMP5004_Countries_of_the_World.dir/objects.a -Wl,--no-whole-archive -o COMP5004_Countries_of_the_World.exe -Wl,--out-implib,libCOMP5004_Countries_of_the_World.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\COMP5004_Countries_of_the_World.dir\linkLibs.rsp
