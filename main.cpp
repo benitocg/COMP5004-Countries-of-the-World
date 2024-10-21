@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream> // files
 #include <cmath>
+#include <unordered_map>
 
 #include "degreesToRadians.h"
 #include <sstream> // storing in memory
@@ -27,6 +28,9 @@ void modifyCities() {
 void deleteCities() {
     cout << "Deleting cities";
 }
+
+
+
 
 void distance() {
     cout << "Distance between two cities...\n";
@@ -55,6 +59,31 @@ void distance() {
     cout << "Distance between Oxford and London is: " << distance << " km";
 }
 
+
+
+struct Cities{
+    string Name;
+    int Population;
+};
+
+
+void hashmap() {
+    // Create an unordered_map
+    unordered_map<string, Cities> cityMap;
+
+    // Insert key-value pairs into the unordered_map
+    cityMap["Oxford"] = Cities {"Oxford", 10000};
+    cityMap["London"] = Cities {"London", 150000};
+    cityMap["Lisbon"] = Cities {"Lisbon", 125000};
+
+
+    Cities& oxfordData = cityMap["Oxford"];
+    cout << oxfordData.Population;
+
+}
+
+
+
 int main() {
 
     cout<<"Cities of the World";
@@ -62,6 +91,7 @@ int main() {
     cout<<"\n2. Saving Cities";
     cout<<"\n3. Add (testing)";
     cout<<"\n4. Exit";
+    cout<<"\n5. map";
 
     int option;
     cout << "\n input your option: ";
@@ -79,6 +109,9 @@ int main() {
             break;
         case 4:
             cout << "Exiting...";
+            break;
+        case 5:
+            hashmap();
             break;
         default:
             break;
