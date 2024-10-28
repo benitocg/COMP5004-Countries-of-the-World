@@ -104,15 +104,15 @@ void Cities::mainMenu() {
     int option;
 
     while (true) {
-        cout << "------------------------";
-        cout << "\nCities of the World";
-        cout << "\n------------------------";
-        cout << "\n1. Finding Cities";
-        cout << "\n2. Adding Cities";
-        cout << "\n3. Add (testing)";
-        cout << "\n4. Exit";
-        cout << "\n------------------------";
-        cout << "\nInput your option: ";
+        cout << "------------------------                        .";
+        cout << "\nCities of the World                        .-\"~~~\"-.";
+        cout << "\n------------------------                  /(-_`.\\| ;\\";
+        cout << "\n1. Finding Cities                        |'?   /  .(-|";
+        cout << "\n2. Adding Cities                         |  \\,`_  ,- |";
+        cout << "\n3. Add (testing)                          \\   ( \\ `,/";
+        cout << "\n4. Exit                                    `-./,'.-'";
+        cout << "\n------------------------                   __.-|-.__";
+        cout << "\nInput your option:                         \"\"\"\"\"\"\"\"\"";
         cin >> option;
         switch (option) {
             case 1:
