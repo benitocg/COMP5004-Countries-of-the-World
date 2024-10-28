@@ -1,6 +1,10 @@
 #include "add.h" //
 #include <iostream>
 #include <fstream> // files
+#include <cstring>
+#include <sstream>
+#include <stdio.h>
+#include <string.h>
 #include <cmath>
 
 
@@ -9,16 +13,54 @@
 
 using namespace std;
 
-void findingCities() {
-    cout << "Finding cities";
+class Cities {
+private:
+    char name[15];
+    int population;
+    char country[15];
+
+public:
+    void addingCities();
+    void findingCities();
+    void mainMenu();
+}c;
+
+void Cities::findingCities() {
+    ifstream cityFile("cities.dat", ios::binary);
+    char sname[15];
+    cout << "Finding cities\n";
+    cout << "Enter the name of the city: ";
+    cin >> sname;
+
+    while (cityFile.read((char *) this, sizeof(Cities))) {
+        if (strcmp(name, sname) == 0) {
+            cout << "City: " << name << ", Population: " << population << ", Country: " << country << endl;
+        }
+    }
 }
 
 void savingCities() {
     cout << "Saving cities";
 }
 
-void addingCities() {
+void Cities::addingCities() {
+    //output data to cities.dat, ios::app appends to end of file instead of overwriting.
+    //ios::binary opens file in binary mode, data is treated as raw bytes
+
+
+    ofstream cityFile("cities.dat", ios::binary | ios::app);
     cout << "Adding cities";
+    cout << "Enter name: ";
+    cin >> name;
+    cout << "Enter population: ";
+    cin >> population;
+    cout << "Enter country: ";
+    cin >> country;
+
+    // .write writes data directly to file. (char*)this gets current object to char* pointer.
+    // sizeof(Cities)
+    cityFile.write((char *) this, sizeof(Cities));
+    cout << "City saved...";
 }
 
 void modifyCities() {
@@ -28,8 +70,6 @@ void modifyCities() {
 void deleteCities() {
     cout << "Deleting cities";
 }
-
-
 
 
 void distance() {
@@ -60,50 +100,41 @@ void distance() {
 }
 
 
-
-struct Cities{
-    string Name;
-    int Population;
-};
-
-
-void map() {
-
-
-}
-
-
-
-int main() {
-
-    cout<<"Cities of the World";
-    cout<<"\n1. Finding Cities";
-    cout<<"\n2. Saving Cities";
-    cout<<"\n3. Add (testing)";
-    cout<<"\n4. Exit";
-    cout<<"\n5. map";
-
+void Cities::mainMenu() {
     int option;
-    cout << "\n input your option: ";
-    cin >> option;
 
-    switch(option) {
-        case 1:
-            findingCities();
-            return 0;
-        case 2:
-            cout << "Saving cities";
-        case 3:
-            cout << "the sum of 3 and 4 is " << add(3,4) <<  '\n' ;
-            distance();
-            break;
-        case 4:
-            cout << "Exiting...";
-            break;
-        case 5:
-
-            break;
-        default:
-            break;
+    while (true) {
+        cout << "------------------------";
+        cout << "\nCities of the World";
+        cout << "\n------------------------";
+        cout << "\n1. Finding Cities";
+        cout << "\n2. Adding Cities";
+        cout << "\n3. Add (testing)";
+        cout << "\n4. Exit";
+        cout << "\n------------------------";
+        cout << "\nInput your option: ";
+        cin >> option;
+        switch (option) {
+            case 1:
+                findingCities();
+                break;
+            case 2:
+                addingCities();
+                break;
+            case 3:
+                cout << "the sum of 3 and 4 is " << add(3, 4) << '\n';
+                distance();
+                break;
+            case 4:
+                cout << "Exiting...";
+                break;
+            default:
+                cout << "Please choose an option available...";
+        }
     }
 }
+
+int main() {
+    c.mainMenu();
+}
+
