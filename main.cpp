@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream> // files
 #include <cmath>
-#include <unordered_map>
+
 
 #include "degreesToRadians.h"
 #include <sstream> // storing in memory
@@ -67,18 +67,8 @@ struct Cities{
 };
 
 
-void hashmap() {
-    // Create an unordered_map
-    unordered_map<string, Cities> cityMap;
+void map() {
 
-    // Insert key-value pairs into the unordered_map
-    cityMap["Oxford"] = Cities {"Oxford", 10000};
-    cityMap["London"] = Cities {"London", 150000};
-    cityMap["Lisbon"] = Cities {"Lisbon", 125000};
-
-
-    Cities& oxfordData = cityMap["Oxford"];
-    cout << oxfordData.Population;
 
 }
 
@@ -111,7 +101,7 @@ int main() {
             cout << "Exiting...";
             break;
         case 5:
-            hashmap();
+
             break;
         default:
             break;
