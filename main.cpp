@@ -18,11 +18,14 @@ private:
     char name[15];
     int population;
     char country[15];
+    double longitude;
+    double latitude;
 
 public:
     void addingCities();
     void findingCities();
     void mainMenu();
+    void distance();
 }c;
 
 void Cities::findingCities() {
@@ -34,7 +37,9 @@ void Cities::findingCities() {
 
     while (cityFile.read((char *) this, sizeof(Cities))) {
         if (strcmp(name, sname) == 0) {
-            cout << "City: " << name << ", Population: " << population << ", Country: " << country << endl;
+            cout << "----------------------------\n";
+            cout << "City: " << name << ", Population: " << population << ", Country: " << country << "\n";
+            cout << "Latitude: " << latitude << ", Longitude: " << longitude << "\n";
         }
     }
 }
@@ -47,20 +52,46 @@ void Cities::addingCities() {
     //output data to cities.dat, ios::app appends to end of file instead of overwriting.
     //ios::binary opens file in binary mode, data is treated as raw bytes
 
-
+    ifstream tempCity("cities.dat", ios::binary);
     ofstream cityFile("cities.dat", ios::binary | ios::app);
-    cout << "Adding cities";
-    cout << "Enter name: ";
-    cin >> name;
-    cout << "Enter population: ";
-    cin >> population;
-    cout << "Enter country: ";
-    cin >> country;
 
-    // .write writes data directly to file. (char*)this gets current object to char* pointer.
-    // sizeof(Cities)
-    cityFile.write((char *) this, sizeof(Cities));
-    cout << "City saved...";
+    char tempName[15];
+    int tempPopulation;
+    char tempCountry[15];
+
+    cout << "Enter the name of the city: ";
+    cin >> tempName;
+    cout << "Enter the population: ";
+    cin >> tempPopulation;
+    cout << "Enter the country: ";
+    cin >> tempCountry;
+    cout << "Enter the longitude: ";
+    cin >> longitude;
+    cout << "Enter the latitude: ";
+    cin >> latitude;
+
+    bool duplicate = false;
+    while (tempCity.read((char*) this, sizeof(Cities))) {
+        if (strcmp(name, tempName) == 0 && strcmp(country, tempCountry) == 0) {
+            duplicate = true;
+            break;
+        }
+    }
+
+    if (!duplicate) {
+        strcpy(name, tempName);
+        population = tempPopulation;
+        strcpy(country, tempCountry);
+        longitude = longitude;
+        latitude = latitude;
+
+        // .write writes data directly to file. (char*)this gets current object to char* pointer.
+        // sizeof(Cities)
+        cityFile.write((char *) this, sizeof(Cities));
+        cout << "City saved...\n";
+    } else {
+        cout << "City already exists\n";
+    }
 }
 
 void modifyCities() {
@@ -72,14 +103,25 @@ void deleteCities() {
 }
 
 
-void distance() {
+void Cities::distance() {
+
+    ifstream cityFile("cities.dat", ios::binary);
+    Cities city1,city2;
     cout << "Distance between two cities...\n";
+    cout << "Enter the name of the first city: ";
+    cin >> city1.name;
+    cout << "Enter the name of the second city: ";
+    cin >> city2.name;
+
+    while (cityFile.read((char *) this, sizeof(Cities))) {
+
+    }
 
     // coordinates for two cities
-    double lat1 = 51.7522; // oxford lat/long
-    double long1 = -1.256;
-    double lat2 = 51.5085; // london lat/long
-    double long2 = -0.1257;
+    double lat1 = city1.latitude; // oxford lat/long
+    double long1 = city1.longitude;
+    double lat2 = city2.latitude; // london lat/long
+    double long2 = city2.longitude;
 
     // converts lat/long degrees to radians
     lat1 = degreesToRadians(lat1);
@@ -96,7 +138,7 @@ void distance() {
     // linear distance
     double distance = (6371.0 * M_PI * d) / 180;
 
-    cout << "Distance between Oxford and London is: " << distance << " km";
+    cout << "Distance between Oxford and London is: " << distance << " km\n";
 }
 
 
@@ -109,7 +151,7 @@ void Cities::mainMenu() {
         cout << "\n------------------------                  /(-_`.\\| ;\\";
         cout << "\n1. Finding Cities                        |'?   /  .(-|";
         cout << "\n2. Adding Cities                         |  \\,`_  ,- |";
-        cout << "\n3. Add (testing)                          \\   ( \\ `,/";
+        cout << "\n3. Distance                               \\   ( \\ `,/";
         cout << "\n4. Exit                                    `-./,'.-'";
         cout << "\n------------------------                   __.-|-.__";
         cout << "\nInput your option:                         \"\"\"\"\"\"\"\"\"";
@@ -130,6 +172,7 @@ void Cities::mainMenu() {
                 break;
             default:
                 cout << "Please choose an option available...";
+
         }
     }
 }
