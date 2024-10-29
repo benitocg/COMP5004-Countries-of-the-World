@@ -18,8 +18,8 @@ private:
     char name[15];
     int population;
     char country[15];
-    double longitude;
     double latitude;
+    double longitude;
 
 public:
     void addingCities();
@@ -58,6 +58,7 @@ void Cities::addingCities() {
     char tempName[15];
     int tempPopulation;
     char tempCountry[15];
+    double tempLatitude, tempLongitude;
 
     cout << "Enter the name of the city: ";
     cin >> tempName;
@@ -65,10 +66,11 @@ void Cities::addingCities() {
     cin >> tempPopulation;
     cout << "Enter the country: ";
     cin >> tempCountry;
-    cout << "Enter the longitude: ";
-    cin >> longitude;
     cout << "Enter the latitude: ";
-    cin >> latitude;
+    cin >> tempLatitude;
+    cout << "Enter the longitude: ";
+    cin >> tempLongitude;
+
 
     bool duplicate = false;
     while (tempCity.read((char*) this, sizeof(Cities))) {
@@ -82,8 +84,8 @@ void Cities::addingCities() {
         strcpy(name, tempName);
         population = tempPopulation;
         strcpy(country, tempCountry);
-        longitude = longitude;
-        latitude = latitude;
+        latitude = tempLatitude;
+        longitude = tempLongitude;
 
         // .write writes data directly to file. (char*)this gets current object to char* pointer.
         // sizeof(Cities)
@@ -113,9 +115,8 @@ void Cities::distance() {
     cout << "Enter the name of the second city: ";
     cin >> city2.name;
 
-    while (cityFile.read((char *) this, sizeof(Cities))) {
-
-    }
+    cityFile.read((char*) &city1, sizeof(Cities));
+    cityFile.read((char*) &city2, sizeof(Cities));
 
     // coordinates for two cities
     double lat1 = city1.latitude; // oxford lat/long
@@ -138,7 +139,7 @@ void Cities::distance() {
     // linear distance
     double distance = (6371.0 * M_PI * d) / 180;
 
-    cout << "Distance between Oxford and London is: " << distance << " km\n";
+    cout << "Distance between " << city1.name <<  " and " << city2.name <<  " is: " << distance << " km\n";
 }
 
 
