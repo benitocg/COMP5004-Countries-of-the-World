@@ -26,17 +26,18 @@ public:
     void findingCities();
     void mainMenu();
     void distance();
+    void modifyCities();
 }c;
 
 void Cities::findingCities() {
     ifstream cityFile("cities.dat", ios::binary);
-    char sname[15];
+    char searchName[15];
     cout << "Finding cities\n";
     cout << "Enter the name of the city: ";
-    cin >> sname;
+    cin >> searchName;
 
     while (cityFile.read((char *) this, sizeof(Cities))) {
-        if (strcmp(name, sname) == 0) {
+        if (strcmp(name, searchName) == 0) {
             cout << "----------------------------\n";
             cout << "City: " << name << ", Population: " << population << ", Country: " << country << "\n";
             cout << "Latitude: " << latitude << ", Longitude: " << longitude << "\n";
@@ -96,8 +97,20 @@ void Cities::addingCities() {
     }
 }
 
-void modifyCities() {
-    cout << "Modify cities";
+void Cities::modifyCities() {
+    cout << "Modify cities\n";
+    fstream cityFile("cities.dat", ios::binary | ios::in | ios::out);
+
+    char searchName[15];
+
+    cout << "Enter the name of the city: \n";
+    cin >> name;
+
+    while (cityFile.read((char *)&searchName, sizeof(Cities))) {
+        if (strcmp(name, searchName) == 0) {
+            cout << name;
+        }
+    }
 }
 
 void deleteCities() {
@@ -108,15 +121,27 @@ void deleteCities() {
 void Cities::distance() {
 
     ifstream cityFile("cities.dat", ios::binary);
+    char cityName1[15], cityName2[15];
     Cities city1,city2;
     cout << "Distance between two cities...\n";
     cout << "Enter the name of the first city: ";
-    cin >> city1.name;
+    cin >> cityName1;
     cout << "Enter the name of the second city: ";
-    cin >> city2.name;
+    cin >> cityName2;
 
-    cityFile.read((char*) &city1, sizeof(Cities));
-    cityFile.read((char*) &city2, sizeof(Cities));
+    while (cityFile.read((char *)&city1, sizeof(Cities))) {
+        if (strcmp(city1.name, cityName1) == 0) {
+            break;
+        }
+    }
+
+    cityFile.seekg(0, ios::beg);
+
+    while (cityFile.read((char *)&city2, sizeof(Cities))) {
+        if (strcmp(city2.name, cityName2) == 0) {
+            break;
+        }
+    }
 
     // coordinates for two cities
     double lat1 = city1.latitude; // oxford lat/long
@@ -152,8 +177,9 @@ void Cities::mainMenu() {
         cout << "\n------------------------                  /(-_`.\\| ;\\";
         cout << "\n1. Finding Cities                        |'?   /  .(-|";
         cout << "\n2. Adding Cities                         |  \\,`_  ,- |";
-        cout << "\n3. Distance                               \\   ( \\ `,/";
-        cout << "\n4. Exit                                    `-./,'.-'";
+        cout << "\n3. Distance";
+        cout << "\n4. Modify Cities" ;
+        cout << "\n5. Exit                                    `-./,'.-'";
         cout << "\n------------------------                   __.-|-.__";
         cout << "\nInput your option:                         \"\"\"\"\"\"\"\"\"";
         cin >> option;
@@ -169,6 +195,8 @@ void Cities::mainMenu() {
                 distance();
                 break;
             case 4:
+                modifyCities();
+            case 5:
                 cout << "Exiting...";
                 break;
             default:
