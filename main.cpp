@@ -26,6 +26,7 @@ public:
     void findingCities();
     void mainMenu();
     void distance();
+    void deleteCities();
     void modifyCities();
 }c;
 
@@ -104,17 +105,43 @@ void Cities::modifyCities() {
     char searchName[15];
 
     cout << "Enter the name of the city: \n";
-    cin >> name;
+    cin >> searchName;
 
-    while (cityFile.read((char *)&searchName, sizeof(Cities))) {
-        if (strcmp(name, searchName) == 0) {
-            cout << name;
+    Cities tempCity;
+    streampos cityFilePos;
+
+    while (cityFile.read((char *)&tempCity, sizeof(Cities))) {
+        if (strcmp(tempCity.name, searchName) == 0) {
+            cityFilePos = cityFile.tellg() - streampos(sizeof(Cities));
+            break;
         }
     }
+
+    cout << "\n Details of " << tempCity.name << "\n";
+    cout << "Population: " << tempCity.population << "\n";
+    cout << "Country: " << tempCity.country << "\n";
+    cout << "Latitude: " << tempCity.latitude << "\n";
+    cout << "Longitude: " << tempCity.longitude << "\n";
+
+    cout << "Enter new Population: \n";
+    cin >> tempCity.population;
+    cout << "Enter new Country: \n";
+    cin >> tempCity.country;
+    cout << "Enter new Latitude: \n";
+    cin >> tempCity.latitude;
+    cout << "Enter new Longitude: \n";
+    cin >> tempCity.longitude;
+
+    cityFile.seekp(cityFilePos);
+    cityFile.write((char *) &tempCity, sizeof(Cities));
+
+    cout << "City saved...\n";
 }
 
-void deleteCities() {
-    cout << "Deleting cities";
+void Cities::deleteCities() {
+    cout << "Deleting cities\n";
+    ifstream cityFile("cities.dat", ios::binary);
+
 }
 
 
@@ -172,16 +199,17 @@ void Cities::mainMenu() {
     int option;
 
     while (true) {
-        cout << "------------------------                        .";
-        cout << "\nCities of the World                        .-\"~~~\"-.";
-        cout << "\n------------------------                  /(-_`.\\| ;\\";
-        cout << "\n1. Finding Cities                        |'?   /  .(-|";
-        cout << "\n2. Adding Cities                         |  \\,`_  ,- |";
+        cout << "------------------------lo";
+        cout << "\nCities of the World";
+        cout << "\n------------------------";
+        cout << "\n1. Finding Cities";
+        cout << "\n2. Adding Cities";
         cout << "\n3. Distance";
         cout << "\n4. Modify Cities" ;
-        cout << "\n5. Exit                                    `-./,'.-'";
-        cout << "\n------------------------                   __.-|-.__";
-        cout << "\nInput your option:                         \"\"\"\"\"\"\"\"\"";
+        cout << "\n5. Delete Cities";
+        cout << "\n6. Exit";
+        cout << "\n------------------------";
+        cout << "\nInput your option";
         cin >> option;
         switch (option) {
             case 1:
@@ -196,7 +224,11 @@ void Cities::mainMenu() {
                 break;
             case 4:
                 modifyCities();
+                break;
             case 5:
+                deleteCities();
+                break;
+            case 6:
                 cout << "Exiting...";
                 break;
             default:
