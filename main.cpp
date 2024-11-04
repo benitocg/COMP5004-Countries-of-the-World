@@ -141,6 +141,28 @@ void Cities::modifyCities() {
 void Cities::deleteCities() {
     cout << "Deleting cities\n";
     ifstream cityFile("cities.dat", ios::binary);
+    ofstream tempCity("temp.dat", ios::binary);
+
+    char searchName[15], searchCountry[15];
+    cout << "Enter the name of the city: \n";
+    cin >> searchName;
+    cout << "Enter the name of the country: \n";
+    cin >> searchCountry;
+
+    while (cityFile.read((char*) this, sizeof(Cities))) {
+        if (strcmp(name, searchName) == 0 && strcmp(country, searchCountry) == 0){
+        } else {
+            tempCity.write((char * )this, sizeof(Cities));
+        }
+    }
+
+    cityFile.close();
+    tempCity.close();
+
+    remove("cities.dat");
+    rename("temp.dat", "cities.dat");
+
+    cout << "City deleted...\n";
 
 }
 
@@ -199,7 +221,7 @@ void Cities::mainMenu() {
     int option;
 
     while (true) {
-        cout << "------------------------lo";
+        cout << "------------------------";
         cout << "\nCities of the World";
         cout << "\n------------------------";
         cout << "\n1. Finding Cities";
@@ -211,6 +233,7 @@ void Cities::mainMenu() {
         cout << "\n------------------------";
         cout << "\nInput your option";
         cin >> option;
+        cin.ignore;
         switch (option) {
             case 1:
                 findingCities();
@@ -230,7 +253,7 @@ void Cities::mainMenu() {
                 break;
             case 6:
                 cout << "Exiting...";
-                break;
+                return;
             default:
                 cout << "Please choose an option available...";
 
