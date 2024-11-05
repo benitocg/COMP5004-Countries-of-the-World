@@ -1,15 +1,12 @@
-#include "add.h" //
 #include <iostream>
 #include <fstream> // files
 #include <cstring>
-#include <sstream>
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
 #include <cmath>
 
 
 #include "degreesToRadians.h"
-#include <sstream> // storing in memory
+
 
 using namespace std;
 
@@ -61,6 +58,7 @@ void Cities::addingCities() {
     int tempPopulation;
     char tempCountry[15];
     double tempLatitude, tempLongitude;
+
 
     cout << "Enter the name of the city: ";
     cin >> tempName;
@@ -232,8 +230,11 @@ void Cities::mainMenu() {
         cout << "\n6. Exit";
         cout << "\n------------------------";
         cout << "\nInput your option";
-        cin >> option;
-        cin.ignore;
+        if (!(cin >> option)) {
+            cin.clear();
+            cin.ignore(1000, '\n');
+        }
+
         switch (option) {
             case 1:
                 findingCities();
@@ -242,7 +243,6 @@ void Cities::mainMenu() {
                 addingCities();
                 break;
             case 3:
-                cout << "the sum of 3 and 4 is " << add(3, 4) << '\n';
                 distance();
                 break;
             case 4:
@@ -255,7 +255,8 @@ void Cities::mainMenu() {
                 cout << "Exiting...";
                 return;
             default:
-                cout << "Please choose an option available...";
+                cout << "\n------------------------";
+                cout << "Please choose an option available...\n";
 
         }
     }
