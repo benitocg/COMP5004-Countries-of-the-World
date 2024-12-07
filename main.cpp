@@ -13,8 +13,12 @@ using namespace std;
 class Cities {
 private:
     char name[15];
-    int population;
     char country[15];
+    int population;
+    int yearRecorded;
+    char mayorName[50];
+    char mayorAddress[100];
+    char history[500];
     double latitude;
     double longitude;
 
@@ -30,6 +34,7 @@ public:
 void Cities::findingCities() {
     ifstream cityFile("cities.dat", ios::binary);
     char searchName[15];
+    bool found = false;
     cout << "Finding cities\n";
     cout << "Enter the name of the city: ";
     cin >> searchName;
@@ -37,9 +42,18 @@ void Cities::findingCities() {
     while (cityFile.read((char *) this, sizeof(Cities))) {
         if (strcmp(name, searchName) == 0) {
             cout << "----------------------------\n";
-            cout << "City: " << name << ", Population: " << population << ", Country: " << country << "\n";
+            cout << "City: " << name << "\n";
+            cout << "Country: " << country << "\n";
+            cout << "Population: " << population << " (Recorded in: " << yearRecorded << ")\n";
+            cout << "Mayor: " << mayorName << "\n";
+            cout << "Mayor's Address: " << mayorAddress << "\n";
+            cout << "History: " << history << "\n";
             cout << "Latitude: " << latitude << ", Longitude: " << longitude << "\n";
         }
+    }
+
+    if (!found) {
+        cout << "No city found...\n";
     }
 }
 
@@ -54,9 +68,8 @@ void Cities::addingCities() {
     ifstream tempCity("cities.dat", ios::binary);
     ofstream cityFile("cities.dat", ios::binary | ios::app);
 
-    char tempName[15];
-    int tempPopulation;
-    char tempCountry[15];
+    char tempName[15], tempMayorName[50], tempMayorAddress[100], tempHistory[500], tempCountry[15];
+    int tempPopulation, tempYearRecorded;
     double tempLatitude, tempLongitude;
 
 
@@ -64,8 +77,17 @@ void Cities::addingCities() {
     cin >> tempName;
     cout << "Enter the population: ";
     cin >> tempPopulation;
+    cout << "Enter the year the population was recorded: ";
+    cin >> tempYearRecorded;
     cout << "Enter the country: ";
     cin >> tempCountry;
+    cout << "Enter the name of the mayor: ";
+    cin.ignore();
+    cin.getline(tempMayorName, 50);
+    cout << "Enter the address of the mayor: ";
+    cin.getline(tempMayorAddress, 100);
+    cout << "Enter a short history of the city: ";
+    cin.getline(tempHistory, 500);
     cout << "Enter the latitude: ";
     cin >> tempLatitude;
     cout << "Enter the longitude: ";
@@ -81,11 +103,16 @@ void Cities::addingCities() {
     }
 
     if (!duplicate) {
+        strcpy(country, tempCountry);
         strcpy(name, tempName);
         population = tempPopulation;
-        strcpy(country, tempCountry);
+        yearRecorded = tempYearRecorded;
+        strcpy(mayorName, tempMayorName);
+        strcpy(mayorAddress, tempMayorAddress);
+        strcpy(history, tempHistory);
         latitude = tempLatitude;
         longitude = tempLongitude;
+
 
         // .write writes data directly to file. (char*)this gets current object to char* pointer.
         // sizeof(Cities)
@@ -102,36 +129,81 @@ void Cities::modifyCities() {
 
     char searchName[15];
 
+
     cout << "Enter the name of the city: \n";
     cin >> searchName;
 
     Cities tempCity;
     streampos cityFilePos;
 
+    bool found = false;
+
     while (cityFile.read((char *)&tempCity, sizeof(Cities))) {
         if (strcmp(tempCity.name, searchName) == 0) {
             cityFilePos = cityFile.tellg() - streampos(sizeof(Cities));
+            found = true;
             break;
         }
     }
 
+    if (!found) {
+        cout << "No city found...\n";
+        return;
+    }
+
+     // Display current details of the city
     cout << "\n Details of " << tempCity.name << "\n";
-    cout << "Population: " << tempCity.population << "\n";
+    cout << "Population: " << tempCity.population << " (Recorded in: " << tempCity.yearRecorded << ")\n";
     cout << "Country: " << tempCity.country << "\n";
+    cout << "Mayor: " << tempCity.mayorName << "\n";
+    cout << "Mayor's Address: " << tempCity.mayorAddress << "\n";
+    cout << "History: " << tempCity.history << "\n";
     cout << "Latitude: " << tempCity.latitude << "\n";
     cout << "Longitude: " << tempCity.longitude << "\n";
 
-    cout << "Enter new Population: \n";
-    cin >> tempCity.population;
-    cout << "Enter new Country: \n";
-    cin >> tempCity.country;
-    cout << "Enter new Latitude: \n";
-    cin >> tempCity.latitude;
-    cout << "Enter new Longitude: \n";
-    cin >> tempCity.longitude;
+    // Update fields
+    cout << "Enter new Population (or -1 to keep current): \n";
+    int newPopulation;
+    cin >> newPopulation;
+    if (newPopulation != -1) tempCity.population = newPopulation;
 
+    cout << "Enter new Year Population Recorded (or -1 to keep current): \n";
+    int newYearRecorded;
+    cin >> newYearRecorded;
+    if (newYearRecorded != -1) tempCity.yearRecorded = newYearRecorded;
+
+    cout << "Enter new Country (or press Enter to keep current): \n";
+    cin.ignore(); // Clear newline left by previous input
+    char newCountry[15];
+    cin.getline(newCountry, 15);
+    if (strlen(newCountry) > 0) strcpy(tempCity.country, newCountry);
+
+    cout << "Enter new Mayor's Name (or press Enter to keep current): \n";
+    char newMayorName[50];
+    cin.getline(newMayorName, 50);
+    if (strlen(newMayorName) > 0) strcpy(tempCity.mayorName, newMayorName);
+
+    cout << "Enter new Mayor's Address (or press Enter to keep current): \n";
+    char newMayorAddress[100];
+    cin.getline(newMayorAddress, 100);
+    if (strlen(newMayorAddress) > 0) strcpy(tempCity.mayorAddress, newMayorAddress);
+
+    cout << "Enter new History (or press Enter to keep current): \n";
+    char newHistory[500];
+    cin.getline(newHistory, 500);
+    if (strlen(newHistory) > 0) strcpy(tempCity.history, newHistory);
+
+    cout << "Enter new Latitude: \n";
+    double newLatitude;
+    cin >> newLatitude;
+
+    cout << "Enter new Longitude: \n";
+    double newLongitude;
+    cin >> newLongitude;
+
+    // Write updated data back to file
     cityFile.seekp(cityFilePos);
-    cityFile.write((char *) &tempCity, sizeof(Cities));
+    cityFile.write((char*)&tempCity, sizeof(Cities));
 
     cout << "City saved...\n";
 }
